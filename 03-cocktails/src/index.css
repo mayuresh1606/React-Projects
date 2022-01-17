@@ -1,0 +1,308 @@
+:root {
+  /* dark shades of primary color*/
+  --clr-primary-1: hsl(205, 86%, 17%);
+  --clr-primary-2: hsl(205, 77%, 27%);
+  --clr-primary-3: hsl(205, 72%, 37%);
+  --clr-primary-4: hsl(205, 63%, 48%);
+  /* primary/main color */
+  --clr-primary-5: hsl(205, 78%, 60%);
+  /* lighter shades of primary color */
+  --clr-primary-6: hsl(205, 89%, 70%);
+  --clr-primary-7: hsl(205, 90%, 76%);
+  --clr-primary-8: hsl(205, 86%, 81%);
+  --clr-primary-9: hsl(205, 90%, 88%);
+  --clr-primary-10: hsl(205, 100%, 96%);
+  /* darkest grey - used for headings */
+  --clr-grey-1: hsl(209, 61%, 16%);
+  --clr-grey-2: hsl(211, 39%, 23%);
+  --clr-grey-3: hsl(209, 34%, 30%);
+  --clr-grey-4: hsl(209, 28%, 39%);
+  /* grey used for paragraphs */
+  --clr-grey-5: hsl(210, 22%, 49%);
+  --clr-grey-6: hsl(209, 23%, 60%);
+  --clr-grey-7: hsl(211, 27%, 70%);
+  --clr-grey-8: hsl(210, 31%, 80%);
+  --clr-grey-9: hsl(212, 33%, 89%);
+  --clr-grey-10: hsl(210, 36%, 96%);
+  --clr-white: #fff;
+  --clr-red-dark: hsl(360, 67%, 44%);
+  --clr-red-light: hsl(360, 71%, 66%);
+  --clr-green-dark: hsl(125, 67%, 44%);
+  --clr-green-light: hsl(125, 71%, 66%);
+  --clr-black: #222;
+  --transition: all 0.3s linear;
+  --spacing: 0.1rem;
+  --radius: 0.25rem;
+  --light-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  --dark-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  --max-width: 1170px;
+  --fixed-width: 620px;
+}
+/*
+=============== 
+Global Styles
+===============
+*/
+
+*,
+::after,
+::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+* {
+  margin: 0;
+  padding: 0;
+}
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* overflow-y: hidden; */
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+#root {
+  margin: 0;
+  padding: 0;
+}
+@media screen and (min-width: 800px) {
+  .nav {
+    width: 100vw;
+    height: auto;
+    background: aliceblue;
+    box-shadow: 0px 7px 14px 0px grey;
+    padding: 0.5rem auto;
+  }
+  .nav-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 90vw;
+    margin: 1rem auto;
+  }
+  .logo-container {
+    width: 40vw;
+    height: auto;
+    margin: 1rem 2vw;
+  }
+  .logo {
+    width: 22.5vw;
+    max-height: 10vh;
+  }
+  .page-navigators {
+    width: 40vw;
+    height: auto;
+    margin: 1rem 2vw;
+    padding: 0.5rem 9rem;
+  }
+  .list {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    list-style: none;
+    font-size: large;
+  }
+  .searchbar-container {
+    margin-top: 5vh;
+    display: grid;
+    place-items: center;
+    padding: 2.5rem 10rem;
+  }
+  .searchbar-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 3rem;
+    background: aliceblue;
+    border-radius: 8px;
+    box-shadow: 5px 6px grey;
+  }
+  .cocktail-search {
+    font-size: x-large;
+    color: green;
+  }
+  .input {
+    width: 30vw;
+    height: 2.5rem;
+    font-size: x-large;
+    border-radius: 4px;
+    background: aliceblue;
+    border: grey 0.5px solid;
+    padding: 0.3rem 0.2rem;
+  }
+  .cocktails-section {
+    width: 85vw;
+    margin: 5vw 7.5vw;
+  }
+  .cocktails-container {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    place-items: center;
+  }
+  .cocktail {
+    display: grid;
+    grid-template-columns: auto;
+    box-shadow: 6px 3px grey;
+    margin: 2.5rem 0;
+    height: auto;
+    border-radius: 5px;
+  }
+  @keyframes shadow {
+    from {
+      box-shadow: 5px 2.5px grey;
+    }
+    to {
+      box-shadow: 8px 5px grey;
+    }
+  }
+  .cocktail:hover {
+    animation: shadow 3s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate-reverse;
+  }
+  .cocktail-image {
+    width: 20vw;
+    height: 30vh;
+    border-radius: 5px 5px 0 0;
+  }
+  .cocktail-info {
+    padding: 15px;
+  }
+  .drink {
+    margin: 1rem 0;
+    letter-spacing: 0.2rem;
+  }
+  .glass {
+    margin: 0.6rem 0;
+    letter-spacing: 0.1rem;
+  }
+  .alcoholic {
+    margin-bottom: 0.5rem;
+    color: #767171;
+  }
+  .detail-btn {
+    width: 5rem;
+    height: 1.7rem;
+    background: #63c263;
+    border: none;
+    border-radius: 7px;
+    color: white;
+    letter-spacing: 0.15rem;
+  }
+  .detail-btn:hover {
+    cursor: pointer;
+    color: #63c263;
+    background-color: aliceblue;
+  }
+  .loading-section-container {
+    display: grid;
+    place-items: center;
+    margin: 5vw 7.5vw;
+  }
+  .loading-animation {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 8rem;
+    height: 8rem;
+    rotate: 50%;
+  }
+  .animation-1,
+  .animation-2,
+  .animation-3 {
+    height: 2rem;
+    width: 2rem;
+    background-color: #63c263;
+  }
+  .animation-1 {
+    animation: loading 0.8s infinite;
+    animation-direction: alternate-reverse;
+  }
+  .animation-2 {
+    animation: loading 0.8s infinite 0.5s;
+    animation-direction: alternate-reverse;
+  }
+  .animation-3 {
+    animation: loading 0.8s infinite 1s;
+    animation-direction: alternate-reverse;
+  }
+  @keyframes loading {
+    from {
+      height: 2rem;
+    }
+    to {
+      height: 6rem;
+    }
+  }
+  .nav-links {
+    text-decoration: none;
+  }
+  .about-container {
+    display: grid;
+    place-items: center;
+    width: 70vw;
+    height: auto;
+    margin: 10vh auto;
+  }
+  .about-para {
+    width: 50%;
+    height: auto;
+    margin: 2.5rem auto;
+    letter-spacing: 0.25rem;
+    font-size: larger;
+  }
+  .drink-container {
+    display: grid;
+    place-items: center;
+    width: 70vw;
+    margin: 10vh auto;
+  }
+  .drink-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .row-1 {
+    display: grid;
+    place-items: center;
+    width: 50%;
+  }
+  .row-2 {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 90%;
+    margin-top: 1rem;
+  }
+  .info-p {
+    margin: 1rem 0;
+    max-width: 35rem;
+  }
+  .info-tag {
+    background: greenyellow;
+    border-radius: 5px;
+    margin-right: 0.5rem;
+    padding: 0.2rem;
+  }
+  /* .drink-info-tag {
+    max-width: 10rem;
+  } */
+  .side-image {
+    width: 25vw;
+    height: 65vh;
+    border-radius: 5px 5px 0 0;
+  }
+  .back-home {
+    width: 7rem !important;
+    height: 2rem !important;
+    margin-bottom: 1rem !important;
+  }
+}
