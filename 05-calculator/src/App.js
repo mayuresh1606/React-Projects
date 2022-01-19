@@ -39,6 +39,27 @@ function App() {
     // setCurrentOperand(currentOperand.splice(0, currentOperand.length - 2));
   }
 
+  function handleKeyPress(key) {
+    const numbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
+    console.log(key);
+    if (numbers.includes(key)){
+      if (currentOperand !== 0){
+        setCurrentOperand(String(currentOperand) + key);
+      }else{
+        setCurrentOperand(key);
+      }
+    }
+    if (key === "Backspace"){ 
+      deleteLastPlace();
+    }
+    if (key === "Enter"){
+      evaluate();
+    }
+    if (key === "+" || key === "-" || key === "*" || key === "÷"){
+      updateOperator(key)
+    }
+  }
+
   function evaluate(){
     if (operation === '*'){
       setOperation(operation + " " + String(currentOperand))
@@ -46,7 +67,12 @@ function App() {
     }
     if (operation === '+'){
       setOperation(operation + " " + String(currentOperand))
-      setCurrentOperand(currentOperand + previousOperand);
+      if (!String(currentOperand).includes(".") || !String(previousOperand).includes(".")){
+        setCurrentOperand(Number(currentOperand) + Number(previousOperand));
+      }
+      else{
+        setCurrentOperand(parseFloat(currentOperand) + parseFloat(previousOperand));
+      }
     }
     if (operation === '-'){
       setOperation(operation + " " + String(currentOperand))
@@ -61,6 +87,11 @@ function App() {
       }
     }
   }
+
+  window.addEventListener("keypress", (e) => {
+    handleKeyPress(e.key);
+  })
+
   return (
     <div className="calculator-grid">
       <div className="output">
@@ -69,7 +100,7 @@ function App() {
       </div>
       <button className="span-two" onClick={allClear}>AC</button>
       <button onClick={deleteLastPlace}>DEL</button>
-      <button onClick={(e) => updateOperator(e.currentTarget.textContent)}>÷</button>
+      <button onKeyPress={(e) => handleKeyPress(e)} onClick={(e) => updateOperator(e.currentTarget.textContent)}>÷</button>
       <button onClick={(e) => appendCurrentOperand(e.currentTarget.textContent)}>1</button>
       <button onClick={(e) => appendCurrentOperand(e.currentTarget.textContent)}>2</button>
       <button onClick={(e) => appendCurrentOperand(e.currentTarget.textContent)}>3</button>
