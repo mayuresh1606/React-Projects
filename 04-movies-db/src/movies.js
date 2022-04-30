@@ -32,7 +32,7 @@ export const Movies = () => {
             <article className="genre-box-1">
                 {genresList.map((genre)=>{
                     const {name, id} = genre
-                    return <Link className='links' to={`/genre/${name}/${id}/1`}><span className="movies-heading" onClick={() => console.log(id)}>{name}</span></Link>
+                    return <Link key={id} className='links' to={`/genre/${name}/${id}/1`}><span className="movies-heading" onClick={() => console.log(id)}>{name}</span></Link>
                 })}
             </article>
             </article>

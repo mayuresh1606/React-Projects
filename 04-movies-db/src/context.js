@@ -64,7 +64,7 @@ export const AppProvider = ({children}) => {
         const data = await response.json()
         setMovies(data.results);
         setPages(() => {
-            for (let i = 1; i <= data.total_pages; i++){
+            for (let i = 1; i <= 500; i++){
                 pagesList = [...pagesList, i]
             }
             return pagesList;

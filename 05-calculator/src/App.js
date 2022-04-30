@@ -88,6 +88,7 @@ function App() {
     }
   }
 
+  window.onkeyup = (e) => handleKeyPress(e)
   window.addEventListener("keypress", (e) => {
     handleKeyPress(e.key);
   })
