@@ -56,11 +56,11 @@ export const AppProvider = ({children}) => {
     // fetch single movie details
     const fetchTvdbSeries = async (id) => {
             console.log(id);
-            const url = `https://api.themoviedb.org/3/find/${id}?api_key=${process.env.REACT_APP_MOVIE_DB_API_KEY}&external_source=imdb_id`
+            const url = `https://api.themoviedb.org/3/find/${id}?api_key=${process.env.REACT_APP_MOVIE_DB_API_KEY}&external_source=tvdb_id`
             const response = await fetch(url);
             const data = await response.json()
             if (data.tv_results || data.tv_episode_results){
-                console.log(data, "DATA")
+                console.log(data)
                 setDetails(data.tv_results || data.tv_episode_results);
                 console.log(details);
             }

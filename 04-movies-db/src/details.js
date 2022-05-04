@@ -29,7 +29,19 @@ export const Details = () => {
 
     const fetchReviews = async (id) => {
         try{
-            console.log(id, "REVIEws id")
+            if (type === "series"){
+                const tempUrl = `https://api.themoviedb.org/3/find/${id}?api_key=${process.env.REACT_APP_MOVIE_DB_API_KEY}&external_source=imdb_id`
+                const tempResponse = await fetch(tempUrl);
+                const tempData = await tempResponse.json();
+                console.log(tempData, "TEMP DATA");
+                type = "tv"
+                if (tempData.tv_season_results.length){
+                    id = tempData.tv_season_results[0].id
+                }
+                if (tempData.tv_results.length){
+                    id = tempData.tv_results[0].id
+                }
+            }
             const url = `https://api.themoviedb.org/3/${type}/${id}/reviews?api_key=7293c31ccbb64b53c645029964522652`;
             console.log(url)
             const response = await fetch(url)
@@ -54,18 +66,19 @@ export const Details = () => {
     
     const fetchVideos = async(id) => {
         try{
-                // const url = `https://api.themoviedb.org/3/find/${id}?api_key=${process.env.REACT_APP_MOVIE_DB_API_KEY}&external_source=imdb_id`
-                // const response = await fetch(url);
-                // const data = await response.json()
-                // if (data.tv_results || data.tv_episode_results){
-                //     if (data.tv_results){
-                //         id = data.tv_results[0].id
-                //     }
-                //     if (data.tv_episode_results){
-                //         id = data.tv_episode_results[0].id
-                //     }
-                // }
-            
+            if (type === "series"){
+                const tempUrl = `https://api.themoviedb.org/3/find/${id}?api_key=${process.env.REACT_APP_MOVIE_DB_API_KEY}&external_source=imdb_id`
+                const tempResponse = await fetch(tempUrl);
+                const tempData = await tempResponse.json();
+                console.log(tempData, "TEMP DATA");
+                type = "tv"
+                if (tempData.tv_season_results.length){
+                    id = tempData.tv_season_results[0].id
+                }
+                if (tempData.tv_results.length){
+                    id = tempData.tv_results[0].id
+                }
+            }
             const url = `https://api.themoviedb.org/3/${type}/${id}/videos?api_key=7293c31ccbb64b53c645029964522652`;
             const response = await fetch(url);
             const data = await response.json();
@@ -82,7 +95,20 @@ export const Details = () => {
     }
 
     const fetchSimilarMovies = async (id) => {
-        const url = `https://api.themoviedb.org/3/movie/${id}/similar?api_key=7293c31ccbb64b53c645029964522652`
+        if (type === "series"){
+                const tempUrl = `https://api.themoviedb.org/3/find/${id}?api_key=${process.env.REACT_APP_MOVIE_DB_API_KEY}&external_source=imdb_id`
+                const tempResponse = await fetch(tempUrl);
+                const tempData = await tempResponse.json();
+                console.log(tempData, "TEMP DATA");
+                type = "tv"
+                if (tempData.tv_season_results.length){
+                    id = tempData.tv_season_results[0].id
+                }
+                if (tempData.tv_results.length){
+                    id = tempData.tv_results[0].id
+                }
+            }
+        const url = `https://api.themoviedb.org/3/${type}/${id}/similar?api_key=7293c31ccbb64b53c645029964522652`
         const response = await fetch(url);
         const data = await response.json();
         setSimilarMovies(data.results);
@@ -92,10 +118,10 @@ export const Details = () => {
         setLoaded(false)
         fetchDetails(newChar, type, id);
         // if (type !== "series" && type !== "tv"){
+        fetchReviews(id);
+        fetchVideos(id);
+        fetchSimilarMovies(id);
         if (type !== "series" && type !== "tv"){
-            fetchVideos(id);
-            fetchReviews(id);
-            fetchSimilarMovies(id);
         }
         // }
         console.log("useEffect called details");
@@ -107,7 +133,7 @@ export const Details = () => {
                     const {Plot,Released, air_date, Title, imdbRating, imdbID, Poster, Actors, Awards, Country, Genre, Language} = movieList
                     return <section className="single-movie-container" key={index}>
                         <div className="movie-details-div">
-                        {videos && <><h2 className="color-letter-spacing">Movie Trailer / Teaser</h2>
+                        {videos && <><h2 className="color-letter-spacing">{type === "series" || type === "tv" ? "Series" : "Movie"} Trailer / Teaser</h2>
                             <div className="underline grey full-width"></div></>}
                         {videos && <><div className="movie-videos">
                             {videos && videos.map((video) => {
@@ -135,18 +161,18 @@ export const Details = () => {
                         </section>
                         <section className="similar-movies">
                             {similarMovies && <>
-                            <h2 className="color-letter-spacing">Similar Movies</h2>
+                            <h2 className="color-letter-spacing">Similar {type === "series" || type === "tv" ? "Series" : "Movies"}</h2>
                             <div className="underline grey full-width"></div>
                             <div className="movie-videos">
                             {similarMovies && similarMovies.map((movie) => {
                             const {Poster, Title, Type, Year, imdbID,  poster_path, title, release_date, id, name, media_type, first_air_date} = movie
                             return <div style={{marginBottom: "0"}} className="movie-details" key={id}>
-                                <Link className="movies-link" to={`/movie/details/${Title || title}/${imdbID || id}/`}>
+                                <Link className="movies-link" to={`/movie/details/${Title || title || name}/${imdbID || id}/`}>
                                     <article key={index} className="movie-card">
-                                        <img className="movie-poster" src={Poster || `https://www.themoviedb.org/t/p/w220_and_h330_face/${poster_path}`} alt={Title || title} />
+                                        <img className="movie-poster" src={Poster || `https://www.themoviedb.org/t/p/w220_and_h330_face/${poster_path}`} alt={Title || title || name} />
                                         <div className={`links`}>
-                                            <h3 className="font-weight">{Title || title}</h3>
-                                            <h4 className="font-weight">Release Year : {Year || release_date}</h4>
+                                            <h3 className="font-weight">{Title || name || title}</h3>
+                                            <h4 className="font-weight">Release Year : {Year || release_date || first_air_date}</h4>
                                         </div>
                                     </article>
                                 </Link>
@@ -159,7 +185,7 @@ export const Details = () => {
                         </section>
                         <section className="movie-reviews">
                         {reviews.length ? <> <h2 className="color-letter-spacing">Reviews</h2>
-                            <div className="underline grey full-width"></div></> : <h2 className="danger-heading">No reviews were found for this movie!!!</h2>
+                            <div className="underline grey full-width"></div></> : <h2 className="danger-heading">No reviews were found for this {type === "series" || type === "tv" ? "series" : "movies"}!!!</h2>
                         }
                         {reviews && reviews.map((review) => {
                             return <div key={review.id} className="review">
