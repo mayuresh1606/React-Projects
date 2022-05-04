@@ -8,15 +8,15 @@ export const Movies = () => {
             <section className="movies-container">
                 {
                 movies?movies.map((movie, index) => {
-                    const {Poster, Title, Type, Year, imdbID} = movie
+                    const {Poster, Title, Type, Year, imdbID,  poster_path, title, release_date, id, name, media_type, first_air_date} = movie
                     return (
                     <div className="movie-details" key={index}>
-                    <Link className="movies-link" to={`${Type}/details/${Title}/${imdbID}/`}>
+                    <Link className="movies-link" to={`${Type || media_type}/details/${Title || title || name}/${imdbID || id}/`}>
                         <article onMouseOut={(e) => {e.currentTarget.lastElementChild.classList.add('hidden')}} onMouseOver={(e) => {e.currentTarget.lastElementChild.classList.remove("hidden")}} key={index} className="movie-card">
-                            <img className="movie-poster" src={Poster} alt={Title} />
+                            <img className="movie-poster" src={Poster || `https://www.themoviedb.org/t/p/w220_and_h330_face/${poster_path}`} alt={Title || title} />
                             <div className={`movie-info links ${window.innerWidth > 886 && 'hidden'}`}>
-                                <h3 className="font-weight">{Title}</h3>
-                                <h4 className="font-weight">Release Year : {Year}</h4>
+                                <h3 className="font-weight">{Title || title || name}</h3>
+                                <h4 className="font-weight">Release Year : {Year || release_date || first_air_date}</h4>
                             </div>
                         </article>
                     </Link>

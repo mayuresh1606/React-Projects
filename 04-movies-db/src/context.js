@@ -13,14 +13,36 @@ export const AppProvider = ({children}) => {
     const [details, setDetails] = useState([{}]);
     const [sidebar, setSidebar] = useState(false);
     const [tempMovies, setTempMovies] = useState([]);
+    const [advancedSearch, setAdvancedSearch] = useState(false);
+    const [reviews, setReviews] = useState([])
 
     const newApi = async () => {
-        setLoaded(false)
-        const url = `https://www.omdbapi.com/?s=${value? value.length >= 3? value:'one piece':'one piece'}&apikey=${process.env.REACT_APP_OMDB_API_KEY}`
-        const response = await fetch(url);
-        const data = await response.json();
-        setMovies(data.Search)
-        setLoaded(true)
+        try{
+            setLoaded(false)
+            if (!advancedSearch){
+                const url = `https://www.omdbapi.com/?s=${value? value.length >= 1? value :'one piece' : 'one piece'}&apikey=${process.env.REACT_APP_OMDB_API_KEY}`
+                const response = await fetch(url);
+                const data = await response.json();
+                setMovies(data.Search)
+                console.log(movies);
+                setLoaded(true)
+            }else{
+                console.log(":ELse executed")
+                const url = `https://api.themoviedb.org/3/search/person?api_key=7293c31ccbb64b53c645029964522652&query=${value}&page=1&include_adult=true`
+                const response = await fetch(url);
+                const data = await response.json();
+                console.log(data.results)
+                if (data.results.length > 0){
+                    const newMovies = data.results[0].known_for
+                    setMovies(newMovies)
+                }else{
+                    setMovies([]);
+                }
+                setLoaded(true)
+            }
+        }catch(err){
+            console.log(err)
+        }
     }
 
     // genres fetch
@@ -33,14 +55,16 @@ export const AppProvider = ({children}) => {
     }
     // fetch single movie details
     const fetchTvdbSeries = async (id) => {
-                const url = `https://api.themoviedb.org/3/find/${id}?api_key=${process.env.REACT_APP_MOVIE_DB_API_KEY}&language=en-US&external_source=tvdb_id`
-                const response = await fetch(url);
-                const data = await response.json()
-                console.log(data);
-                if (data.tv_results || data.tv_episode_results){
-                    setDetails(data.tv_results || data.tv_episode_results);
-                }
+            console.log(id);
+            const url = `https://api.themoviedb.org/3/find/${id}?api_key=${process.env.REACT_APP_MOVIE_DB_API_KEY}&external_source=imdb_id`
+            const response = await fetch(url);
+            const data = await response.json()
+            if (data.tv_results || data.tv_episode_results){
+                console.log(data, "DATA")
+                setDetails(data.tv_results || data.tv_episode_results);
+                console.log(details);
             }
+        }
 
     const fetchDetails = async (title, type, id) => {
         // setLoaded(false);
@@ -85,7 +109,7 @@ export const AppProvider = ({children}) => {
         newApi();
     }, [value])
 
-    return <AppContext.Provider value={{tempMovies, setTempMovies, fetchPopularMovies, fetchPopularSeries, fetchDetails, fetchGenres, newApi, sidebar, setSidebar, moviesActive, setMoviesActive, details, setDetails, pages, setPages, loaded, setLoaded, movieId, setMovieId, genresList, movies, setValue, value, setMovies}}>{children}</AppContext.Provider>
+    return <AppContext.Provider value={{tempMovies, setTempMovies, fetchPopularMovies, fetchPopularSeries, fetchDetails, fetchGenres, newApi, sidebar, setSidebar, moviesActive, setMoviesActive, details, setDetails, pages, setPages, loaded, setLoaded, movieId, setMovieId, genresList, movies, setValue, value, setMovies, advancedSearch, setAdvancedSearch, reviews, setReviews}}>{children}</AppContext.Provider>
 }
 export const useGlobalContext = () =>{
     return useContext(AppContext)

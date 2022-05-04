@@ -6,7 +6,7 @@ import {GiHamburgerMenu} from 'react-icons/gi'
 
 
 export const Navbar = () => {
-    const {value, setValue, sidebar, setSidebar, newApi} = useGlobalContext();
+    const {value, setValue, sidebar, setSidebar, newApi, setAdvancedSearch, advancedSearch} = useGlobalContext();
     
     
     return <nav className={`${sidebar?'side-bar nav':'nav'}`}>
@@ -21,6 +21,10 @@ export const Navbar = () => {
             e.preventDefault();
             newApi();
             }} className="search-bar-form">
+            <button type="button" onClick={() => {
+                setAdvancedSearch(!advancedSearch)
+                console.log(advancedSearch)
+                }} className="btn-popularity adv-search-btn"><span className="center-margin">advanced search</span> <div className={advancedSearch?`underline underline-active`:`underline`}></div></button>
             <input onChange={(e) => setValue(e.target.value)} value={value} type="text" className="search-bar" name="search-bar" id="search" />
             <Link to="/"><button type="submit" className='btn-w-o-back'><BsSearch type="submit" className="search-icon" /></button></Link>
         </form>
