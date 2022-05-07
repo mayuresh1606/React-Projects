@@ -28,18 +28,33 @@ export const AppProvider = ({children}) => {
                 setLoaded(true)
             }else{
                 console.log(":ELse executed")
-                const url = `https://api.themoviedb.org/3/search/person?api_key=7293c31ccbb64b53c645029964522652&query=${value}&page=1&include_adult=true`
+                const url = `https://api.themoviedb.org/3/search/person?api_key=7293c31ccbb64b53c645029964522652&query=${value}&include_adult=true`;
                 const response = await fetch(url);
                 const data = await response.json();
                 console.log(data.results)
                 if (data.results.length > 0){
-                    const newMovies = data.results[0].known_for
-                    setMovies(newMovies)
+                    let newMovies = data.results[0].known_for
+                    // newMovies = newMovies.map(async(movie, index) => {
+                    //     const tempUrl = `https://api.themoviedb.org/3/tv/${movie.id}/external_ids?api_key=7293c31ccbb64b53c645029964522652`
+                    //     const tempResponse = await fetch(tempUrl);
+                    //     const tempData = await tempResponse.json();
+                    //     movie.id = tempData.imdb_id;
+                    //     return movie;
+                    // })
+                    setMovies(newMovies);
+                    // await setMovies(newMovies.map(async(movie) => {
+                    //     const tempUrl = `https://api.themoviedb.org/3/${movie.media_type}/${movie.id}/external_ids?api_key=7293c31ccbb64b53c645029964522652`
+                    //     const tempResponse = await fetch(tempUrl);
+                    //     const tempData = await tempResponse.json();
+                    //     movie.id = tempData.imdb_id;
+                    //     return movie;
+                    // }))
                 }else{
                     setMovies([]);
                 }
                 setLoaded(true)
             }
+            console.log(movies, "MOVIES");
         }catch(err){
             console.log(err)
         }
@@ -56,7 +71,10 @@ export const AppProvider = ({children}) => {
     // fetch single movie details
     const fetchTvdbSeries = async (id) => {
             console.log(id);
-            const url = `https://api.themoviedb.org/3/find/${id}?api_key=${process.env.REACT_APP_MOVIE_DB_API_KEY}&external_source=tvdb_id`
+            let url = `https://api.themoviedb.org/3/find/${id}?api_key=${process.env.REACT_APP_MOVIE_DB_API_KEY}&external_source=imdb_id`
+            if (advancedSearch){
+                url = `https://api.themoviedb.org/3/find/${id}?api_key=${process.env.REACT_APP_MOVIE_DB_API_KEY}&external_source=tvdb_id`;
+            }
             const response = await fetch(url);
             const data = await response.json()
             if (data.tv_results || data.tv_episode_results){
@@ -68,11 +86,17 @@ export const AppProvider = ({children}) => {
 
     const fetchDetails = async (title, type, id) => {
         // setLoaded(false);
+        if (type === "tv"){
+            type = "series";
+        }
         const url = `https://www.omdbapi.com/?t=${title}&type=${type}&apikey=${process.env.REACT_APP_OMDB_API_KEY}`
         const response = await fetch(url)
         const data = await response.json();
         if (data.Error){
             console.log(data);
+            if (type === "series"){
+                type = "tv";
+            }
             fetchTvdbSeries(id);
         }
         else{

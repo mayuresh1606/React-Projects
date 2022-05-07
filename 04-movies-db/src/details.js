@@ -4,13 +4,11 @@ import { useGlobalContext } from "./context";
 import { Link } from "react-router-dom";
 
 export const Details = () => {
-    const {details, setLoaded, fetchDetails, reviews, setReviews} = useGlobalContext();
+    const {details, setLoaded, fetchDetails, reviews, setReviews, advancedSearch} = useGlobalContext();
     const [videos, setVideos] = useState();
     const [similarMovies, setSimilarMovies] = useState();
     
     let {title, type, id} = useParams();
-
-
     // if (type === "series"){
     //     type = "tv";
     // }
@@ -29,8 +27,11 @@ export const Details = () => {
 
     const fetchReviews = async (id) => {
         try{
-            if (type === "series"){
-                const tempUrl = `https://api.themoviedb.org/3/find/${id}?api_key=${process.env.REACT_APP_MOVIE_DB_API_KEY}&external_source=imdb_id`
+            if (type === "series" || type === "tv"){
+                let tempUrl = `https://api.themoviedb.org/3/find/${id}?api_key=${process.env.REACT_APP_MOVIE_DB_API_KEY}&external_source=imdb_id`;
+                if (advancedSearch){
+                    tempUrl = `https://api.themoviedb.org/3/find/${id}?api_key=${process.env.REACT_APP_MOVIE_DB_API_KEY}&external_source=tvdb_id`;
+                }
                 const tempResponse = await fetch(tempUrl);
                 const tempData = await tempResponse.json();
                 console.log(tempData, "TEMP DATA");
@@ -66,8 +67,11 @@ export const Details = () => {
     
     const fetchVideos = async(id) => {
         try{
-            if (type === "series"){
+            if (type === "series" || type === "tv"){
                 const tempUrl = `https://api.themoviedb.org/3/find/${id}?api_key=${process.env.REACT_APP_MOVIE_DB_API_KEY}&external_source=imdb_id`
+                if (advancedSearch){
+                    tempUrl = `https://api.themoviedb.org/3/find/${id}?api_key=${process.env.REACT_APP_MOVIE_DB_API_KEY}&external_source=tvdb_id`;
+                }
                 const tempResponse = await fetch(tempUrl);
                 const tempData = await tempResponse.json();
                 console.log(tempData, "TEMP DATA");
@@ -95,8 +99,11 @@ export const Details = () => {
     }
 
     const fetchSimilarMovies = async (id) => {
-        if (type === "series"){
-                const tempUrl = `https://api.themoviedb.org/3/find/${id}?api_key=${process.env.REACT_APP_MOVIE_DB_API_KEY}&external_source=imdb_id`
+        if (type === "series" || type === "tv"){
+                let tempUrl = `https://api.themoviedb.org/3/find/${id}?api_key=${process.env.REACT_APP_MOVIE_DB_API_KEY}&external_source=imdb_id`
+                if (advancedSearch){
+                    tempUrl = `https://api.themoviedb.org/3/find/${id}?api_key=${process.env.REACT_APP_MOVIE_DB_API_KEY}&external_source=tvdb_id`;
+                }
                 const tempResponse = await fetch(tempUrl);
                 const tempData = await tempResponse.json();
                 console.log(tempData, "TEMP DATA");
