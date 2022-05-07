@@ -242,7 +242,8 @@ code {
   .single-movie-container {
     background: #dff3ff;
     margin: 0;
-    padding: 10vh 0;
+    padding: 5vh 0;
+    overflow-x: hidden;
   }
   .danger-heading {
     color: rgb(236, 74, 74);
@@ -319,8 +320,8 @@ code {
   .movie-details-div {
     display: flex;
     flex-direction: column;
-    width: 80vw;
-    margin: 0vh 10vw;
+    width: 90vw;
+    margin: 0vh 5vw;
     background: ghostwhite;
   }
   

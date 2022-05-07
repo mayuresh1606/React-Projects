@@ -24,8 +24,14 @@ export const AppProvider = ({children}) => {
                 const response = await fetch(url);
                 const data = await response.json();
                 setMovies(data.Search)
-                console.log(movies);
                 setLoaded(true)
+                if (!movies){
+                    const url = `https://www.omdbapi.com/?t=${value.length ? value : "one piece"}&apikey=${process.env.REACT_APP_OMDB_API_KEY}`;
+                    const response = await fetch(url);
+                    const data = await response.json();
+                    console.log("Double data", data);
+                    setMovies([{...data}]);
+                }
             }else{
                 console.log(":ELse executed")
                 const url = `https://api.themoviedb.org/3/search/person?api_key=7293c31ccbb64b53c645029964522652&query=${value}&include_adult=true`;
@@ -54,7 +60,6 @@ export const AppProvider = ({children}) => {
                 }
                 setLoaded(true)
             }
-            console.log(movies, "MOVIES");
         }catch(err){
             console.log(err)
         }
