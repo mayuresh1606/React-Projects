@@ -9,12 +9,20 @@ export const AppProvider = ({children}) => {
     const [loading, setLoading] = useState(true);
 
     const fetchData = async() => {
-        setLoading(true);
-        const response = await fetch(`${url}${value}`);
-        const data = await response.json();
-        const {drinks} = data;
-        setDrinks(drinks);
-        setLoading(false);
+        try{
+            setLoading(true);
+            const response = await fetch(`${url}${value}`);
+            const data = await response.json();
+            const {drinks} = data;
+            if (drinks === null){
+                setDrinks([])
+            }
+            setDrinks(drinks);
+            setLoading(false);
+
+        }catch{
+            setDrinks([])
+        }
     }
 
     useEffect(() => {

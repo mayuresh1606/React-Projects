@@ -7,7 +7,7 @@ export const Cocktails = () => {
     return <section className="cocktails-section">
         <center><h2>Cocktails</h2></center>
         <section className="cocktails-container">
-        {drinks.map((drink, drinkIndex) => {
+        {drinks ? drinks.map((drink, drinkIndex) => {
             let {strDrinkThumb, strDrink, strAlcoholic, strGlass, idDrink} = drink;
             drink = {glass:strGlass, cocktail:strDrink, image:strDrinkThumb, type:strAlcoholic, id:idDrink}
             let {glass, cocktail, image, type, id} = drink
@@ -22,7 +22,7 @@ export const Cocktails = () => {
                     </button>
                 </div>
             </article>
-        })}
+        }) : <p className="no-drinks">No drinks to display</p> }
         </section>
     </section>
 }

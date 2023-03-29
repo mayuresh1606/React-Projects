@@ -1,10 +1,10 @@
 import './App.css';
-import {Movies} from './movies'
+import Movies from './movies'
 import {Navbar} from './navbar'
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 import { useGlobalContext } from './context';
 import { Popularity } from './popularity'
-import { Details } from './details'
+import Details from './details'
 import { Sidebar } from './sidebar'
 import { Genre } from './genre'
 import { Loading } from './loading'

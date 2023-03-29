@@ -3,7 +3,8 @@ import { useParams } from "react-router"
 import { useGlobalContext } from "./context";
 import { Link } from "react-router-dom";
 
-export const Details = () => {
+// we can also write below function as "export const Details = () => {default function Details () { 'code' }"
+export default function Details () {
     const {details, setLoaded, fetchDetails, reviews, setReviews, advancedSearch} = useGlobalContext();
     const [videos, setVideos] = useState();
     const [similarMovies, setSimilarMovies] = useState();
@@ -68,7 +69,7 @@ export const Details = () => {
     const fetchVideos = async(id) => {
         try{
             if (type === "series" || type === "tv"){
-                const tempUrl = `https://api.themoviedb.org/3/find/${id}?api_key=${process.env.REACT_APP_MOVIE_DB_API_KEY}&external_source=imdb_id`
+                let tempUrl = `https://api.themoviedb.org/3/find/${id}?api_key=${process.env.REACT_APP_MOVIE_DB_API_KEY}&external_source=imdb_id`;
                 if (advancedSearch){
                     tempUrl = `https://api.themoviedb.org/3/find/${id}?api_key=${process.env.REACT_APP_MOVIE_DB_API_KEY}&external_source=tvdb_id`;
                 }

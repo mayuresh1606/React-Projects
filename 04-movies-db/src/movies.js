@@ -1,6 +1,8 @@
 import { useGlobalContext } from "./context";
 import { Link } from "react-router-dom";
-export const Movies = () => {
+
+// we can also write below function as "export const Movies = () => { 'code' }"
+export default function Movies () {
     const {movies, genresList} = useGlobalContext();
     
     return <section className="container">
